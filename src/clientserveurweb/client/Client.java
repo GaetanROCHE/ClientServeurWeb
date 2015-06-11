@@ -3,19 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clientserveurweb;
+package clientserveurweb.client;
 
 /**
  *
  * @author Gaëtan
  */
-public class ClientServeurWeb {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        
-    }
+public class Client {
     
 }
