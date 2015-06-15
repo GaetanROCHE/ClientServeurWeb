@@ -41,24 +41,42 @@ public class Serveur {
         }
 
 
+        int code = 0;
+        String content = new String("Test");
+
         try {
-            String str;
+            String get = in.readLine();
+            String str = null;
             while(!(str=in.readLine()).equals("")) {
                 System.out.println(str);
             }
+            /*
+            if(!get.startsWith("GET"))
+                code = 401;
+
+            String[] args = get.split(" ");
+            if(args[1].equals("/"))
+                content = "Test";
+
+            FileInputStream file = new FileInputStream(args[1]);
+            int c;
+            while((c =file.read()) != -1){
+                content += c;
+            }
+            */
         }
         catch (IOException e1) {
             e1.printStackTrace();
         }
 
-        String res = "HTTP/1.1 200 OK\n" +
+        String res = "HTTP/1.1 "+code+" OK\n" +
                 "Date: Aujourd'hui\n" +
                 "Server: Nous\n" +
-                "Content-Length:13\n" +
+                "Content-Length:"+content.length()+"\n" +
                 "Connection: close\n" +
                 "ContentType: text/html\n" +
                 "\n" +
-                "<h1>Test</h1>";
+                content;
 
         try {
             out = client.getOutputStream();
