@@ -5,9 +5,7 @@
  */
 package clientserveurweb.serveur;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -18,7 +16,7 @@ import java.net.Socket;
 public class Serveur {
     ServerSocket server;
     Socket client;
-    InputStream in;
+    DataInputStream in;
     OutputStream out;
 
     public Serveur(){
@@ -37,33 +35,32 @@ public class Serveur {
         }
 
         try {
-            in = client.getInputStream();
+            in = new DataInputStream(client.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
         try {
-            byte[] buffer = new byte[255];
-            String data;
-            int i = in.read(buffer);
-            while ( i != -1) {
-                System.out.println("----Code:" + i + "----");
-                data = new String(buffer, "UTF-8");
-                System.out.println(data);
-                System.out.println("----Fin Buffer----");
-                if(i < 255)
-                    break;
-                i = in.read(buffer);
+            String str;
+            while(!(str=in.readLine()).equals("")) {
+                System.out.println(str);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        catch (IOException e1) {
+            e1.printStackTrace();
         }
 
-        String res = "Test";
+        String res = "HTTP/1.1 200 OK\n" +
+                "Date: Aujourd'hui\n" +
+                "Server: Nous\n" +
+                "Content-Length:13\n" +
+                "Connection: close\n" +
+                "ContentType: text/html\n" +
+                "\n" +
+                "<h1>Test</h1>";
 
         try {
-
             out = client.getOutputStream();
             out.write(res.getBytes());
             out.flush();
