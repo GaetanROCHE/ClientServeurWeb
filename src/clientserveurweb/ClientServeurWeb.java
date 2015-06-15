@@ -5,6 +5,8 @@
  */
 package clientserveurweb;
 
+import clientserveurweb.serveur.Serveur;
+
 /**
  *
  * @author Gaëtan
@@ -15,6 +17,8 @@ public class ClientServeurWeb {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Serveur srv = new Serveur();
+        srv.run();
         
     }
     
