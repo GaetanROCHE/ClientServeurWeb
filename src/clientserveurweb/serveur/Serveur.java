@@ -42,45 +42,57 @@ public class Serveur {
 
 
         int code = 0;
-        String content = new String("Test");
+        String nameFile = "index.html";
+        FileInputStream file = null;
 
         try {
             String get = in.readLine();
+            System.out.println(get);
             String str = null;
             while(!(str=in.readLine()).equals("")) {
                 System.out.println(str);
             }
-            /*
-            if(!get.startsWith("GET"))
-                code = 401;
 
             String[] args = get.split(" ");
-            if(args[1].equals("/"))
-                content = "Test";
 
-            FileInputStream file = new FileInputStream(args[1]);
-            int c;
-            while((c =file.read()) != -1){
-                content += c;
+            if(!get.startsWith("GET")) {
+                code = 401;
+                nameFile = "error.html";
             }
-            */
+
+            else{
+                nameFile = args[1].substring(1);
+                if(nameFile.equals(""))
+                    nameFile = "index.html";
+            }
+
+            file = new FileInputStream(nameFile);
+
         }
         catch (IOException e1) {
             e1.printStackTrace();
         }
 
-        String res = "HTTP/1.1 "+code+" OK\n" +
-                "Date: Aujourd'hui\n" +
-                "Server: Nous\n" +
-                "Content-Length:"+content.length()+"\n" +
-                "Connection: close\n" +
-                "ContentType: text/html\n" +
-                "\n" +
-                content;
+        String header = null;
+        try {
+            header = "HTTP/1.1 "+code+" OK\n" +
+                    "Date: Aujourd'hui\n" +
+                    "Server: Nous\n" +
+                    "Content-Length:"+file.available()+"\n" +
+                    "Connection: close\n" +
+                    "ContentType: text/html\n" +
+                    "\n";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         try {
             out = client.getOutputStream();
-            out.write(res.getBytes());
+            out.write(header.getBytes());
+            while(file.available() > 0){
+                out.write(file.read());
+            }
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();
