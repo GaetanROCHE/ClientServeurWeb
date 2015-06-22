@@ -5,17 +5,20 @@
  */
 package clientserveurweb;
 
+import clientserveurweb.client.Client;
+
 /**
  *
  * @author Gaëtan
  */
-public class ClientServeurWeb {
+public class ClientServeurWeb{
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException{
         
+        Client.demandeWeb("www.w3.org", "pub/WWW/TheProject.html");
+        Client.affichePage();
     }
-    
 }
