@@ -8,6 +8,7 @@ package clientserveurweb.serveur;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 
 /**
  *
@@ -41,8 +42,8 @@ public class Serveur {
         }
 
 
-        int code = 0;
-        String nameFile = "index.html";
+        int code = 200;
+        String nameFile;
         FileInputStream file = null;
 
         try {
@@ -56,7 +57,7 @@ public class Serveur {
             String[] args = get.split(" ");
 
             if(!get.startsWith("GET")) {
-                code = 401;
+                code = 400;
                 nameFile = "error.html";
             }
 
@@ -70,14 +71,20 @@ public class Serveur {
 
         }
         catch (IOException e1) {
-            e1.printStackTrace();
+            //e1.printStackTrace();
+            nameFile = "error.html";
+            try {
+                file = new FileInputStream(nameFile);
+            } catch (FileNotFoundException e) { e.printStackTrace(); }
+            code = 404;
         }
 
         String header = null;
+        String status = getStatusMessage(code);
         try {
-            header = "HTTP/1.1 "+code+" OK\n" +
-                    "Date: Aujourd'hui\n" +
-                    "Server: Nous\n" +
+            header = "HTTP/1.1 "+code+" "+status+"\n"+
+                    "Date:"+new Date().toString()+"\n" +
+                    "Server: Polytech Server\n" +
                     "Content-Length:"+file.available()+"\n" +
                     "Connection: close\n" +
                     "ContentType: text/html\n" +
@@ -85,6 +92,8 @@ public class Serveur {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.print(header);
 
 
         try {
@@ -107,5 +116,19 @@ public class Serveur {
 
     }
 
+    private String getStatusMessage(int code){
+        switch (code){
+            case 200: return "OK";
+            case 201: return "Created";
+            case 202: return "Accepted";
+            case 203: return "Non-Authoritative Information";
+            case 204: return "No Content";
+            //etc ...
+            case 400: return "Bad Request";
+            case 401: return "Unauthorized";
+            case 404: return "Not Found";
+            default: return "Code not found";
+        }
+    }
 
 }
