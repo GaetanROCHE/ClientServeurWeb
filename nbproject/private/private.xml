@@ -4,7 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Gaëtan/Documents/NetBeansProjects/ClientServeurWeb/src/clientserveurweb/client/Client.java</file>
-            <file>file:/C:/Users/Gaëtan/Documents/NetBeansProjects/ClientServeurWeb/src/clientserveurweb/ClientServeurWeb.java</file>
+            <file>file:/C:/Users/Gaëtan/Documents/NetBeansProjects/ClientServeurWeb/src/clientserveurweb/serveur/Serveur.java</file>
+            <file>file:/C:/Users/Gaëtan/Documents/NetBeansProjects/ClientServeurWeb/src/clientserveurweb/ClientMain.java</file>
         </group>
     </open-files>
 </project-private>
