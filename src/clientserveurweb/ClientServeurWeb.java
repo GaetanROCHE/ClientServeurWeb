@@ -1,4 +1,4 @@
-﻿/*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -20,11 +20,11 @@ public class ClientServeurWeb{
      */
 
     public static void main(String[] args) {
-        Serveur srv = new Serveur();
-        srv.run();
+        //Serveur srv = new Serveur();
+        //srv.run();
 
         
-        Client.demandeWeb("www.w3.org", "pub/WWW/TheProject.html");
+        Client.demandeWeb("chbe.fr", "");
         Client.affichePage();
     }
 }

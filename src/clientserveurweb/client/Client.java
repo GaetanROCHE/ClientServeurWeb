@@ -5,6 +5,7 @@
  */
 package clientserveurweb.client;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,21 +21,21 @@ import java.net.Socket;
 public class Client {
     
     
-    public static void demandeWeb(String URL, String nomFichier) throws InterruptedException{
+    public static void demandeWeb(String URL, String nomFichier){
         try{
             FileOutputStream fichier = new FileOutputStream(new File("page.html"));
-            String requeteHTTP = "GET /"+nomFichier+" HTTP/1.1";
-            requeteHTTP = requeteHTTP + "Host : http://" + URL + "/";
-            requeteHTTP = requeteHTTP + "User-Agent: mozilla/4.0";
-            requeteHTTP = requeteHTTP + "Connection: Close";
-            requeteHTTP = requeteHTTP + "Accept: text/html, image/gif, image/jpeg,";
-            requeteHTTP = requeteHTTP + "Accept-Language: fr";
-            requeteHTTP = requeteHTTP + "\n";
-
+            String requeteHTTP = "GET /"+nomFichier+" HTTP/1.1\r\n";
+            String host = "Host: " + URL + "\r\n\r\n";
+            /*requeteHTTP = requeteHTTP + "Accept: text/html, image/gif, image/jpeg,\r\n";
+            requeteHTTP = requeteHTTP + "Accept-Language: fr\r\n";
+            requeteHTTP = requeteHTTP + "\n";*/
+            
             Socket sc = new Socket();
             sc.connect(new InetSocketAddress(URL, 80));
-            sc.getOutputStream().write(requeteHTTP.getBytes());
-            sc.getOutputStream().flush();
+            DataOutputStream output = new DataOutputStream(sc.getOutputStream());
+            System.out.println(requeteHTTP + host);
+            output.writeBytes(requeteHTTP + host);
+            output.flush();
             byte[] reponse = new byte[512];
             while(sc.getInputStream().read(reponse) != -1){
                 fichier.write(reponse);
